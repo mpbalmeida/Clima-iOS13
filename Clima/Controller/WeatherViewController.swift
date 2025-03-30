@@ -7,15 +7,18 @@
 //
 
 import UIKit
+import CoreLocation
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController {
     
-    var weatherService = WeatherService()
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
+    
+    var weatherService = WeatherService()
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         searchTextField.delegate = self
     }
     
+}
+
+//MARK: - UITextFieldDelegate
+
+extension WeatherViewController: UITextFieldDelegate {
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
         print(searchTextField.text!)
@@ -56,6 +64,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         searchTextField.text = ""
     }
     
+}
+
+//MARK: - WeatherManagerDelegate
+
+extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherService: WeatherService, _ weather: WeatherModel) {
         DispatchQueue.main.async {
             self.temperatureLabel.text = weather.temperatureString
