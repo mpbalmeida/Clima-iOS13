@@ -24,6 +24,12 @@ struct WeatherService {
         performRequest(with: urlString)
     }
     
+    func fetchWeather(latitude: Double, longitude: Double) {
+        let urlString = "\(weatherUrl)&lat=\(latitude)&lon=\(longitude)"
+        print(urlString)
+        performRequest(with: urlString)
+    }
+    
     // External name with just to be more readable
     func performRequest(with urlString: String) {
         if let url = URL(string: urlString) {
